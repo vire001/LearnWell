@@ -1,0 +1,189 @@
+/**
+ * CSS Theme System — CSS custom properties for Dark & Light modes.
+ *
+ * Dark mode (default): Deep charcoal surfaces, muted warm amber accents.
+ * Light mode: White/light-grey surfaces, muted purple accents.
+ *
+ * Switching themes: set data-theme="light" on <html> to enable light mode.
+ * Default (no attribute or data-theme="dark") renders dark mode.
+ */
+
+/* ================================================
+   DARK THEME (default)
+   ================================================ */
+:root,
+[data-theme='dark'] {
+  /* Surfaces */
+  --bg-primary: #101012;
+  --bg-secondary: #141416;
+  --bg-tertiary: #1c1c1f;
+  --bg-elevated: #222225;
+
+  /* Text */
+  --text-primary: #e8e4dc;
+  --text-secondary: #908a82;
+  --text-muted: #5c5750;
+
+  /* Accents — muted warm amber */
+  --accent-primary: #d4912a;
+  --accent-secondary: #b87a1e;
+  --accent-hover: #e0a03a;
+  --accent-glow: rgba(212, 145, 42, 0.10);
+  --accent-subtle-bg: rgba(212, 145, 42, 0.06);
+
+  /* Borders */
+  --border-subtle: #1f1f22;
+  --border-default: #2a2a2e;
+
+  /* Cards */
+  --card-bg: #19191c;
+  --card-border: #29292c;
+  --card-hover-border: #2e2e32;
+
+  /* Misc */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --nav-height: 56px;
+
+  /* Overlay */
+  --overlay-bg: rgba(0, 0, 0, 0.6);
+}
+
+/* ================================================
+   LIGHT THEME
+   ================================================ */
+[data-theme='light'] {
+  /* Surfaces */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f7f8;
+  --bg-tertiary: #efefef;
+  --bg-elevated: #ffffff;
+
+  /* Text */
+  --text-primary: #18181b;
+  --text-secondary: #5a5a68;
+  --text-muted: #9090a0;
+
+  /* Accents — muted purple */
+  --accent-primary: #6d28d9;
+  --accent-secondary: #5b21b6;
+  --accent-hover: #7e3fea;
+  --accent-glow: rgba(109, 40, 217, 0.08);
+  --accent-subtle-bg: rgba(109, 40, 217, 0.04);
+
+  /* Borders */
+  --border-subtle: #eaeaec;
+  --border-default: #dcdce0;
+
+  /* Cards */
+  --card-bg: #ffffff;
+  --card-border: #eaeaec;
+  --card-hover-border: #d0d0d6;
+
+  /* Misc */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+
+  /* Overlay */
+  --overlay-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* ================================================
+   GLOBAL RESET & BASE STYLES
+   ================================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: background-color var(--transition-normal),
+    color var(--transition-normal);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ================================================
+   UTILITY CLASSES
+   ================================================ */
+.container {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Main content offset for fixed navbar */
+.main-content {
+  padding-top: var(--nav-height);
+}
+
+/* Visually hidden but accessible to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
