@@ -12,6 +12,7 @@
  * Preserves the API health-check indicator from M1.
  */
 
+import { Link } from 'react-router-dom';
 import {
   ArrowRight,
   Calculator, Code, Brain, BookA, Lock,
@@ -162,28 +163,46 @@ export default function Home() {
           <p className="section__subheading">Select a subject to begin focused practice</p>
 
           <div className="subjects__grid">
-            {SUBJECTS.map(({ id, label, desc, icon: Icon, active }) => (
-              <div
-                key={id}
-                className={`subject-card ${active ? 'subject-card--active' : 'subject-card--locked'}`}
-              >
-                <div className="subject-card__icon">
-                  <Icon size={22} strokeWidth={1.8} />
+            {SUBJECTS.map(({ id, label, desc, icon: Icon, active }) => {
+              const cardInner = (
+                <>
+                  <div className="subject-card__icon">
+                    <Icon size={22} strokeWidth={1.8} />
+                  </div>
+                  <h3 className="subject-card__title">{label}</h3>
+                  <p className="subject-card__desc">{desc}</p>
+                  {!active && (
+                    <span className="subject-card__badge">
+                      <Lock size={10} /> Coming Soon
+                    </span>
+                  )}
+                  {active && (
+                    <span className="subject-card__badge subject-card__badge--active">
+                      Available Now
+                    </span>
+                  )}
+                </>
+              );
+
+              return active ? (
+                <Link
+                  key={id}
+                  to="/subjects/mathematics"
+                  className="subject-card subject-card--active"
+                  title="Explore Mathematics Chapters"
+                >
+                  {cardInner}
+                </Link>
+              ) : (
+                <div
+                  key={id}
+                  className="subject-card subject-card--locked"
+                  aria-disabled="true"
+                >
+                  {cardInner}
                 </div>
-                <h3 className="subject-card__title">{label}</h3>
-                <p className="subject-card__desc">{desc}</p>
-                {!active && (
-                  <span className="subject-card__badge">
-                    <Lock size={10} /> Coming Soon
-                  </span>
-                )}
-                {active && (
-                  <span className="subject-card__badge subject-card__badge--active">
-                    Available Now
-                  </span>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

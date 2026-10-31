@@ -272,6 +272,7 @@
   border-color: var(--accent-primary);
   background-color: var(--card-bg);
   box-shadow: 0 0 0 1px var(--accent-primary);
+  cursor: pointer;
 }
 
 .subject-card--active:hover {

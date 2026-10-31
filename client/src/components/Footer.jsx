@@ -6,12 +6,29 @@
  */
 
 import { BookOpen } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './Footer.css';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
+const FOOTER_LINKS = [
+  { label: 'Home', to: '/' },
+  { label: 'Practice', to: '/practice' },
+  { label: 'Formula Lab', to: '/formula-lab' },
+  { label: 'History', to: '/history' },
+  { label: 'Notes', to: '/notes' },
+];
+
 export default function Footer() {
+  const location = useLocation();
+
+  const handleLinkClick = (to) => {
+    // If the user clicks a link targeting the current route, scroll smoothly to top
+    if (location.pathname === to) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <footer className="footer">
       <div className="footer__inner container">
@@ -21,11 +38,16 @@ export default function Footer() {
         </div>
 
         <nav className="footer__links">
-          <Link to="/" className="footer__link">Home</Link>
-          <Link to="/practice" className="footer__link">Practice</Link>
-          <Link to="/formula-lab" className="footer__link">Formula Lab</Link>
-          <Link to="/history" className="footer__link">History</Link>
-          <Link to="/notes" className="footer__link">Notes</Link>
+          {FOOTER_LINKS.map(({ label, to }) => (
+            <Link
+              key={to}
+              to={to}
+              className="footer__link"
+              onClick={() => handleLinkClick(to)}
+            >
+              {label}
+            </Link>
+          ))}
         </nav>
 
         <p className="footer__copy">

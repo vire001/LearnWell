@@ -39,6 +39,13 @@ export default function Navbar() {
     setSubjectsOpen(false);
   }, []);
 
+  const handleNavClick = useCallback((to) => {
+    closeMenu();
+    if (location.pathname === to) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+  }, [closeMenu, location.pathname]);
+
   /* Close subjects dropdown on outside click */
   useEffect(() => {
     function handleClick(e) {
@@ -69,7 +76,7 @@ export default function Navbar() {
       <header className="navbar">
         <div className="navbar__inner container">
           {/* Brand */}
-          <Link to="/" className="navbar__brand" onClick={closeMenu}>
+          <Link to="/" className="navbar__brand" onClick={() => handleNavClick('/')}>
             <BookOpen size={20} strokeWidth={2.2} className="navbar__brand-icon" />
             <span>LearnWell</span>
           </Link>
@@ -80,7 +87,7 @@ export default function Navbar() {
             <Link
               to="/"
               className={`navbar__link ${currentPath === '/' ? 'navbar__link--active' : ''}`}
-              onClick={closeMenu}
+              onClick={() => handleNavClick('/')}
             >
               Home
             </Link>
@@ -104,28 +111,42 @@ export default function Navbar() {
               {subjectsOpen && (
                 <div className="navbar__dropdown-panel" role="menu">
                   <div className="navbar__subjects-grid">
-                    {SUBJECTS.map(({ id, label, icon: Icon, active }) => (
-                      <button
-                        type="button"
-                        key={id}
-                        className={`navbar__subject-card ${active ? 'navbar__subject-card--active' : 'navbar__subject-card--locked'}`}
-                        onClick={() => {
-                          if (active) {
+                    {SUBJECTS.map(({ id, label, icon: Icon, active }) => {
+                      const itemInner = (
+                        <>
+                          <div className="navbar__subject-row">
+                            <Icon size={14} strokeWidth={2} className="navbar__subject-icon" />
+                            <span className="navbar__subject-name">{label}</span>
+                          </div>
+                          <span className={`navbar__subject-status ${active ? 'navbar__subject-status--active' : ''}`}>
+                            {active ? 'Active' : 'Coming Soon'}
+                          </span>
+                        </>
+                      );
+
+                      return active ? (
+                        <Link
+                          key={id}
+                          to="/subjects/mathematics"
+                          className="navbar__subject-card navbar__subject-card--active"
+                          onClick={() => {
                             setSubjectsOpen(false);
-                            closeMenu();
-                          }
-                        }}
-                        disabled={!active}
-                      >
-                        <div className="navbar__subject-row">
-                          <Icon size={14} strokeWidth={2} className="navbar__subject-icon" />
-                          <span className="navbar__subject-name">{label}</span>
-                        </div>
-                        <span className={`navbar__subject-status ${active ? 'navbar__subject-status--active' : ''}`}>
-                          {active ? 'Active' : 'Coming Soon'}
-                        </span>
-                      </button>
-                    ))}
+                            handleNavClick('/subjects/mathematics');
+                          }}
+                        >
+                          {itemInner}
+                        </Link>
+                      ) : (
+                        <button
+                          type="button"
+                          key={id}
+                          className="navbar__subject-card navbar__subject-card--locked"
+                          disabled
+                        >
+                          {itemInner}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -135,7 +156,7 @@ export default function Navbar() {
             <Link
               to="/practice"
               className={`navbar__link ${currentPath === '/practice' ? 'navbar__link--active' : ''}`}
-              onClick={closeMenu}
+              onClick={() => handleNavClick('/practice')}
             >
               Practice
             </Link>
@@ -144,7 +165,7 @@ export default function Navbar() {
             <Link
               to="/formula-lab"
               className={`navbar__link ${currentPath === '/formula-lab' ? 'navbar__link--active' : ''}`}
-              onClick={closeMenu}
+              onClick={() => handleNavClick('/formula-lab')}
             >
               Formula Lab
             </Link>
@@ -153,7 +174,7 @@ export default function Navbar() {
             <Link
               to="/history"
               className={`navbar__link ${currentPath === '/history' ? 'navbar__link--active' : ''}`}
-              onClick={closeMenu}
+              onClick={() => handleNavClick('/history')}
             >
               History
             </Link>
@@ -162,7 +183,7 @@ export default function Navbar() {
             <Link
               to="/notes"
               className={`navbar__link ${currentPath === '/notes' ? 'navbar__link--active' : ''}`}
-              onClick={closeMenu}
+              onClick={() => handleNavClick('/notes')}
             >
               Notes
             </Link>
@@ -188,7 +209,7 @@ export default function Navbar() {
               {theme === 'dark' ? <Sun size={17} strokeWidth={2} /> : <Moon size={17} strokeWidth={2} />}
             </button>
 
-            <Link to="/" className="navbar__get-started" onClick={closeMenu}>
+            <Link to="/" className="navbar__get-started" onClick={() => handleNavClick('/')}>
               Get Started
             </Link>
 
