@@ -1,0 +1,249 @@
+/* ================================================
+   OptionCard.css — Interactive Option Card Styles
+   ================================================ */
+
+.option-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  width: 100%;
+}
+
+.option-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-primary);
+  text-align: left;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.option-card:hover:not(:disabled) {
+  border-color: var(--accent-primary);
+  background-color: var(--bg-elevated);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.option-card:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* --- Indicator Wrap: Letter & Shortcut --- */
+.option-card__indicator-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.option-card__letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+}
+
+.option-card__shortcut-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 1px 4px;
+  text-transform: uppercase;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* --- Option Content --- */
+.option-card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 3px;
+}
+
+.option-card__text {
+  color: var(--text-primary);
+  font-size: 0.96rem;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.option-card__text--strikethrough {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+/* --- Correct State --- */
+.option-card--correct,
+.option-card-wrapper.option-card--correct .option-card {
+  background-color: rgba(16, 185, 129, 0.08);
+  border-color: #10b981;
+  color: var(--text-primary);
+}
+
+[data-theme='light'] .option-card--correct,
+[data-theme='light'] .option-card-wrapper.option-card--correct .option-card {
+  background-color: #ecfdf5;
+  border-color: #059669;
+}
+
+.option-card--correct .option-card__letter {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+.option-card__correct-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #10b981;
+  margin-top: 4px;
+}
+
+[data-theme='light'] .option-card__correct-badge {
+  color: #047857;
+}
+
+.option-card__icon--correct {
+  color: #10b981;
+}
+
+[data-theme='light'] .option-card__icon--correct {
+  color: #059669;
+}
+
+/* --- Exhausted / Incorrect Distractor State --- */
+.option-card--exhausted,
+.option-card-wrapper.option-card--exhausted .option-card {
+  background-color: rgba(239, 68, 68, 0.04);
+  border-color: rgba(239, 68, 68, 0.4);
+  opacity: 0.85;
+}
+
+.option-card--exhausted .option-card__letter {
+  background-color: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #ef4444;
+}
+
+.option-card__eliminated-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #ef4444;
+  margin-top: 2px;
+}
+
+.option-card__icon--incorrect {
+  color: #ef4444;
+}
+
+/* --- Locked / Disabled States --- */
+.option-card--locked,
+.option-card-wrapper.option-card--locked .option-card {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.option-card:disabled {
+  cursor: default;
+}
+
+/* --- Option-Specific Learning Guidance Box --- */
+.option-card__guidance {
+  margin-top: 8px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent-subtle-bg);
+  border: 1px solid var(--accent-secondary);
+  animation: fadeInGuidance 0.2s ease-in-out;
+}
+
+[data-theme='light'] .option-card__guidance {
+  background-color: #fefce8;
+  border-color: #fde047;
+}
+
+.option-card__guidance-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  color: var(--accent-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+[data-theme='light'] .option-card__guidance-header {
+  color: #b45309;
+}
+
+.option-card__guidance-icon {
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+[data-theme='light'] .option-card__guidance-icon {
+  color: #b45309;
+}
+
+.option-card__guidance-body {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
+@keyframes fadeInGuidance {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 640px) {
+  .option-card {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .option-card__letter {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,295 @@
+/* ================================================
+   PracticeHeader.css — Interactive Practice Workbench Header
+   ================================================ */
+
+.practice-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 20px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* --- Top Navigation & Meta --- */
+.practice-header__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.practice-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.practice-header__back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.practice-header__back-btn:hover {
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
+  border-color: var(--border-default);
+}
+
+.practice-header__breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.practice-header__crumb {
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.practice-header__crumb:hover {
+  color: var(--accent-primary);
+}
+
+.practice-header__crumb--active {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.practice-header__crumb-sep {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.practice-header__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.practice-header__learner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+
+.practice-header__learner-badge strong {
+  color: var(--text-primary);
+}
+
+.practice-header__readonly-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background-color: rgba(99, 102, 241, 0.15);
+  color: #818cf8;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+[data-theme='light'] .practice-header__readonly-pill {
+  background-color: #e0e7ff;
+  color: #4338ca;
+  border-color: #c7d2fe;
+}
+
+/* --- Controls Row (Tracker & Timer & Review) --- */
+.practice-header__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.practice-header__tracker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 220px;
+}
+
+.practice-header__counter {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.practice-header__q-current {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.practice-header__q-total {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.practice-header__progress-track {
+  width: 100%;
+  max-width: 380px;
+  height: 6px;
+  background-color: var(--bg-tertiary);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.practice-header__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+  border-radius: 999px;
+  transition: width var(--transition-normal);
+}
+
+.practice-header__right-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.practice-header__timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.practice-header__review-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.practice-header__review-btn:hover:not(:disabled) {
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
+  border-color: var(--border-default);
+}
+
+.practice-header__review-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Distinctive purple styling for Marked for Review state */
+.practice-header__review-btn--marked {
+  background-color: rgba(168, 85, 247, 0.15);
+  border-color: rgba(168, 85, 247, 0.4);
+  color: #c084fc;
+}
+
+[data-theme='light'] .practice-header__review-btn--marked {
+  background-color: #f3e8ff;
+  border-color: #d8b4fe;
+  color: #7e22ce;
+}
+
+.practice-header__review-btn--marked .practice-header__bookmark-icon {
+  fill: currentColor;
+}
+
+/* --- Context Row --- */
+.practice-header__context {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.practice-header__context-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.practice-header__context-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent-glow);
+  color: var(--accent-primary);
+  border: 1px solid rgba(212, 145, 42, 0.2);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Mixed Practice styling */
+.practice-header__context-pill--mixed {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+[data-theme='light'] .practice-header__context-pill--mixed {
+  background-color: #d1fae5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .practice-header {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .practice-header__controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .practice-header__progress-track {
+    max-width: 100%;
+  }
+
+  .practice-header__right-actions {
+    justify-content: space-between;
+  }
+}

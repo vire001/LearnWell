@@ -1,0 +1,332 @@
+/**
+ * SessionCompletionModal.css — Tri-Action Practice Session Completion Dialog Styling.
+ */
+
+.completion-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1000;
+  animation: completionOverlayFadeIn 0.2s ease-out;
+}
+
+@keyframes completionOverlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.completion-modal {
+  width: 100%;
+  max-width: 540px;
+  background: var(--bg-surface, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: completionModalScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes completionModalScaleIn {
+  from {
+    transform: scale(0.96) translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Header */
+.completion-modal__header {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
+  background: var(--bg-card, #ffffff);
+}
+
+.completion-modal__title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.completion-modal__icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.completion-modal__icon-wrap--success {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.completion-modal__icon-wrap--advisory {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.completion-modal__title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+}
+
+.completion-modal__subtitle {
+  margin: 0.2rem 0 0 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary, #64748b);
+}
+
+.completion-modal__close-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary, #64748b);
+  border-radius: 8px;
+  padding: 0.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.completion-modal__close-btn:hover {
+  background: var(--bg-hover, #f1f5f9);
+  color: var(--text-primary, #0f172a);
+}
+
+/* Body */
+.completion-modal__body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: var(--bg-surface, #ffffff);
+}
+
+/* Summary metrics card */
+.completion-summary-card {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  align-items: center;
+  background: var(--bg-subtle, #f8fafc);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+}
+
+.completion-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.completion-metric__value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+}
+
+.completion-metric__value--warn {
+  color: #f59e0b;
+}
+
+.completion-metric__value--purple {
+  color: #8b5cf6;
+}
+
+.completion-metric__label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary, #64748b);
+  margin-top: 0.15rem;
+  text-align: center;
+}
+
+.completion-metric-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--border-color, #e2e8f0);
+}
+
+.completion-modal__desc {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-secondary, #475569);
+}
+
+/* Actions Footer */
+.completion-modal__actions {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--border-color, #e2e8f0);
+  background: var(--bg-card, #ffffff);
+}
+
+/* Scenario A layout */
+.completion-actions-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Scenario B Tri-Action layout */
+.completion-tri-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.completion-tri-actions__top {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.completion-action-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.15rem;
+  background: var(--bg-surface, #ffffff);
+  border: 1.5px solid var(--border-color, #e2e8f0);
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.completion-action-card:hover:not(:disabled) {
+  border-color: var(--primary, #3b82f6);
+  background: var(--bg-hover, #f8fafc);
+  transform: translateX(3px);
+}
+
+.completion-action-card:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.completion-action-card__icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.completion-action-card__icon-wrap--amber {
+  background: rgba(245, 158, 11, 0.15);
+  color: #d97706;
+}
+
+.completion-action-card__icon-wrap--purple {
+  background: rgba(139, 92, 246, 0.15);
+  color: #8b5cf6;
+}
+
+.completion-action-card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.completion-action-card__content strong {
+  font-size: 0.95rem;
+  color: var(--text-primary, #0f172a);
+}
+
+.completion-action-card__content span {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #64748b);
+  margin-top: 0.1rem;
+}
+
+.completion-action-card__arrow {
+  color: var(--text-muted, #94a3b8);
+  transition: transform 0.15s ease;
+}
+
+.completion-action-card:hover:not(:disabled) .completion-action-card__arrow {
+  transform: translateX(3px);
+  color: var(--primary, #3b82f6);
+}
+
+.completion-tri-actions__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border-color, #e2e8f0);
+}
+
+/* Button styles */
+.completion-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.15rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+}
+
+.completion-btn--primary {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.completion-btn--primary:hover {
+  background: #059669;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.completion-btn--secondary {
+  background: var(--bg-surface, #ffffff);
+  border-color: var(--border-color, #cbd5e1);
+  color: var(--text-secondary, #475569);
+}
+
+.completion-btn--secondary:hover {
+  background: var(--bg-hover, #f1f5f9);
+  color: var(--text-primary, #0f172a);
+}
+
+.completion-btn--advisory {
+  background: #f59e0b;
+  color: #ffffff;
+}
+
+.completion-btn--advisory:hover {
+  background: #d97706;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}

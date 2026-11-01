@@ -1,0 +1,490 @@
+/* ================================================
+   Formula Intelligence & AI Analysis Styles
+   ================================================ */
+
+.analysis-container {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 860px;
+  margin: 0 auto;
+  animation: analysisFadeIn 250ms ease;
+}
+
+@keyframes analysisFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.analysis-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Headings */
+.analysis-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.analysis-heading__icon {
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.analysis-heading__icon--green {
+  color: #38a169;
+}
+
+.analysis-heading__icon--accent {
+  color: var(--accent-primary);
+}
+
+.analysis-heading__icon--amber {
+  color: #d97706;
+}
+
+.analysis-heading__icon--warning {
+  color: #e53e3e;
+}
+
+.analysis-heading__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+/* Base Analysis Card */
+.analysis-card {
+  padding: 18px 20px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.analysis-text {
+  font-size: 0.92rem;
+  color: var(--text-primary);
+  line-height: 1.65;
+}
+
+/* ================================================
+   1. CANONICAL FORMULA HERO CARD
+   ================================================ */
+.canonical-card {
+  padding: 22px 24px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--accent-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 0 1px var(--accent-primary), var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.canonical-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.canonical-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: var(--accent-subtle-bg);
+  border: 1px solid var(--accent-glow);
+  color: var(--accent-primary);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.canonical-card__copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.canonical-card__copy-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-primary);
+  background-color: var(--bg-elevated);
+}
+
+.canonical-card__copy-icon--check {
+  color: #38a169;
+}
+
+.canonical-card__formula-wrap {
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  overflow-x: auto;
+}
+
+.canonical-card__formula {
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.canonical-card__attachment-ref {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+/* ================================================
+   3. CONDITIONS
+   ================================================ */
+.conditions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.conditions-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
+.conditions-bullet {
+  color: #38a169;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* ================================================
+   5. RECOGNITION CLUES
+   ================================================ */
+.clues-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.clue-chip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.clue-chip__num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  margin-top: 2px;
+}
+
+/* ================================================
+   6. RELATED FORMULAS
+   ================================================ */
+.related-formulas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.related-formula-item {
+  padding: 8px 14px;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color: var(--text-primary);
+}
+
+/* ================================================
+   7. SOLVED EXAMPLE (COLLAPSIBLE)
+   ================================================ */
+.solved-example-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.solved-example-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.solved-example-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-primary);
+}
+
+.solved-example-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.example-problem {
+  padding: 12px 14px;
+  background-color: var(--bg-tertiary);
+  border-left: 3px solid var(--accent-primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.example-problem__tag {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 4px;
+}
+
+.example-problem__text {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
+.example-steps__heading {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 10px;
+}
+
+.example-steps__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.example-step {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.example-step__num {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.example-step__content {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+  overflow-x: auto;
+}
+
+.example-answer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: var(--accent-subtle-bg);
+  border: 1px solid var(--accent-glow);
+  border-radius: var(--radius-sm);
+}
+
+.example-answer__tag {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.example-answer__text {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ================================================
+   8. COMMON MISTAKES
+   ================================================ */
+.analysis-card--mistakes {
+  background-color: rgba(229, 62, 62, 0.04);
+  border-color: rgba(229, 62, 62, 0.25);
+}
+
+.mistakes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mistake-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
+.mistake-item__bullet {
+  color: #e53e3e;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ================================================
+   REJECTION VIEW
+   ================================================ */
+.analysis-card--rejected {
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.analysis-rejected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.analysis-rejected__icon {
+  color: #d97706;
+}
+
+.analysis-rejected__title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.analysis-rejected__desc {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.analysis-rejected__actions {
+  margin-top: 10px;
+}
+
+/* ================================================
+   ACTION FOOTER
+   ================================================ */
+.analysis-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+}
+
+.analysis-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.analysis-btn--primary {
+  background-color: var(--accent-primary);
+  color: #101012;
+  border: 1px solid var(--accent-primary);
+}
+
+.analysis-btn--primary:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.analysis-btn--secondary {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+}
+
+.analysis-btn--secondary:hover {
+  background-color: var(--bg-elevated);
+  border-color: var(--accent-primary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .canonical-card {
+    padding: 16px 16px;
+  }
+
+  .example-answer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .analysis-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .analysis-btn {
+    justify-content: center;
+  }
+}

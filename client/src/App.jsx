@@ -13,6 +13,8 @@ import Home from './pages/Home';
 import MathChapters from './pages/MathChapters';
 import MathTopics from './pages/MathTopics';
 import FormulaInput from './pages/FormulaInput';
+import PracticeHome from './pages/PracticeHome';
+import PracticeSession from './pages/PracticeSession';
 import NotFound from './pages/NotFound';
 
 export default function App() {
@@ -25,6 +27,8 @@ export default function App() {
           <Route path="/subjects/mathematics" element={<MathChapters />} />
           <Route path="/subjects/mathematics/:chapterId" element={<MathTopics />} />
           <Route path="/subjects/mathematics/:chapterId/:topicId" element={<FormulaInput />} />
+          <Route path="/practice" element={<PracticeHome />} />
+          <Route path="/practice/:sessionId" element={<PracticeSession />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

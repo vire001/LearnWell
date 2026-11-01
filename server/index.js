@@ -10,6 +10,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const healthRoutes = require('./routes/health');
+const formulaRoutes = require('./routes/formula');
+const practiceRoutes = require('./routes/practice');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +22,8 @@ app.use(express.json());
 
 // --------------- Routes ---------------
 app.use('/api', healthRoutes);
+app.use('/api', formulaRoutes);
+app.use('/api', practiceRoutes);
 
 // --------------- Start ---------------
 app.listen(PORT, () => {

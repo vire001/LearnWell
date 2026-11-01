@@ -1,0 +1,386 @@
+/**
+ * GenerationProgress.css — Styling for Batch Generation Controller.
+ *
+ * Conforms to LearnWell dark/light theme tokens and Section 8 architecture.
+ */
+
+.gen-progress-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2.5rem 1rem;
+  min-height: calc(100vh - var(--nav-height) - 100px);
+}
+
+.gen-progress-card {
+  width: 100%;
+  max-width: 680px;
+  background: var(--card-bg, #19191c);
+  border: 1px solid var(--card-border, #29292c);
+  border-radius: var(--radius-lg, 16px);
+  padding: 2.25rem;
+  box-shadow: var(--shadow-lg, 0 8px 32px rgba(0, 0, 0, 0.4));
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* Header */
+.gen-progress-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+}
+
+.gen-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: var(--accent-subtle-bg, rgba(212, 145, 42, 0.08));
+  border: 1px solid var(--accent-primary, #d4912a);
+  color: var(--accent-primary, #d4912a);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.gen-dot-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-primary, #d4912a);
+  animation: pulse-dot 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    transform: scale(0.85);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+.gen-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #e8e4dc);
+  margin: 0;
+}
+
+.gen-subtitle {
+  font-size: 0.92rem;
+  color: var(--text-secondary, #908a82);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 540px;
+}
+
+/* Progress Track */
+.gen-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gen-bar-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: var(--text-secondary, #908a82);
+  font-weight: 500;
+}
+
+.gen-bar-percent {
+  color: var(--accent-primary, #d4912a);
+  font-weight: 700;
+}
+
+.gen-progress-track {
+  width: 100%;
+  height: 10px;
+  background: var(--bg-tertiary, #1c1c1f);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle, #1f1f22);
+}
+
+.gen-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-secondary, #b87a1e), var(--accent-primary, #d4912a));
+  border-radius: 999px;
+  transition: width 0.4s ease-in-out;
+}
+
+/* Batch List */
+.gen-batches-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.gen-batch-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: var(--bg-secondary, #141416);
+  border: 1px solid var(--border-default, #2a2a2e);
+  border-radius: var(--radius-md, 10px);
+  transition: all var(--transition-fast, 150ms ease);
+}
+
+.gen-batch-row.active {
+  border-color: var(--accent-primary, #d4912a);
+  background: var(--accent-subtle-bg, rgba(212, 145, 42, 0.05));
+}
+
+.gen-batch-row.done {
+  border-color: rgba(46, 160, 67, 0.4);
+  background: rgba(46, 160, 67, 0.05);
+}
+
+.gen-batch-row.paused {
+  border-color: rgba(212, 145, 42, 0.6);
+  background: rgba(212, 145, 42, 0.08);
+}
+
+.gen-batch-indicator {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: var(--bg-tertiary, #1c1c1f);
+  color: var(--text-secondary, #908a82);
+  flex-shrink: 0;
+}
+
+.gen-batch-row.done .gen-batch-indicator {
+  background: #2ea043;
+  color: #ffffff;
+}
+
+.gen-batch-row.active .gen-batch-indicator {
+  background: var(--accent-primary, #d4912a);
+  color: #101012;
+}
+
+.gen-check-icon {
+  font-weight: 800;
+}
+
+.gen-spinner-small {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-top-color: #101012;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.gen-batch-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.gen-batch-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary, #e8e4dc);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gen-batch-sub {
+  font-size: 0.82rem;
+  color: var(--text-secondary, #908a82);
+}
+
+.gen-saved-tag {
+  color: #3fb950;
+  font-weight: 600;
+}
+
+/* Count Banner */
+.gen-count-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-tertiary, #1c1c1f);
+  border-radius: var(--radius-md, 10px);
+  border: 1px dashed var(--border-default, #2a2a2e);
+}
+
+.gen-count-num {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent-primary, #d4912a);
+}
+
+.gen-count-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary, #908a82);
+  font-weight: 500;
+}
+
+/* Pause / Error Banner */
+.gen-pause-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: rgba(212, 145, 42, 0.1);
+  border: 1px solid var(--accent-primary, #d4912a);
+  border-radius: var(--radius-md, 10px);
+}
+
+.gen-pause-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.gen-pause-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.gen-pause-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-primary, #d4912a);
+}
+
+.gen-pause-msg {
+  font-size: 0.88rem;
+  color: var(--text-primary, #e8e4dc);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.gen-cooldown-clock {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #908a82);
+  margin-top: 0.25rem;
+}
+
+.gen-pause-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.btn-resume {
+  padding: 0.6rem 1.1rem;
+  background: var(--accent-primary, #d4912a);
+  color: #101012;
+  font-size: 0.88rem;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-md, 10px);
+  cursor: pointer;
+  transition: background var(--transition-fast, 150ms ease);
+}
+
+.btn-resume:hover:not(:disabled) {
+  background: var(--accent-hover, #e0a03a);
+}
+
+.btn-resume:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Completed Banner */
+.gen-completed-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: rgba(46, 160, 67, 0.08);
+  border: 1px solid #2ea043;
+  border-radius: var(--radius-md, 10px);
+}
+
+.gen-complete-badge {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #3fb950;
+}
+
+.gen-complete-msg {
+  font-size: 0.92rem;
+  color: var(--text-secondary, #908a82);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.gen-complete-actions {
+  margin-top: 0.5rem;
+}
+
+.btn-start-practice {
+  padding: 0.8rem 1.75rem;
+  background: #2ea043;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-md, 10px);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(46, 160, 67, 0.3);
+  transition: transform var(--transition-fast, 150ms ease), background var(--transition-fast, 150ms ease);
+}
+
+.btn-start-practice:hover {
+  background: #3fb950;
+  transform: translateY(-1px);
+}
+
+/* Footer */
+.gen-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-subtle, #1f1f22);
+  font-size: 0.8rem;
+  color: var(--text-muted, #5c5750);
+}
+
+.btn-cancel-gen {
+  background: transparent;
+  border: none;
+  color: var(--text-muted, #5c5750);
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0.2rem 0.5rem;
+}
+
+.btn-cancel-gen:hover {
+  color: var(--text-secondary, #908a82);
+}

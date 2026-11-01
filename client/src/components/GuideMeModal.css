@@ -1,0 +1,202 @@
+/* ================================================
+   GuideMeModal.css — 4-Part Constructive Coaching Styles
+   ================================================ */
+
+.guide-me-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--overlay-bg);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.guide-me-modal {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 840px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalSlideUp 0.25s ease-out;
+}
+
+/* Header */
+.guide-me-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  background-color: var(--bg-secondary);
+}
+
+.guide-me-modal__title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.guide-me-modal__icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent-subtle-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-primary);
+  border: 1px solid var(--accent-secondary);
+}
+
+.guide-me-modal__title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.guide-me-modal__subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.guide-me-modal__close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.guide-me-modal__close-btn:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+/* Body & Grid */
+.guide-me-modal__body {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.guide-me-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* Card Quadrants */
+.guide-me-card {
+  padding: 18px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.guide-me-card:hover {
+  border-color: var(--border-default);
+  background-color: var(--bg-elevated);
+}
+
+.guide-me-card__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.guide-me-card__icon-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guide-me-card--think .guide-me-card__icon-badge {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+}
+
+.guide-me-card--approach .guide-me-card__icon-badge {
+  background-color: rgba(99, 102, 241, 0.12);
+  color: #818cf8;
+}
+
+.guide-me-card--remember .guide-me-card__icon-badge {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.guide-me-card--apply .guide-me-card__icon-badge {
+  background-color: rgba(139, 92, 246, 0.12);
+  color: #8b5cf6;
+}
+
+.guide-me-card__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.guide-me-card__role {
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.guide-me-card__content {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+/* Footer */
+.guide-me-modal__footer {
+  padding: 14px 24px;
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--bg-secondary);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.guide-me-modal__btn-ready {
+  padding: 9px 20px;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent-primary);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.guide-me-modal__btn-ready:hover {
+  background-color: var(--accent-hover);
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .guide-me-grid {
+    grid-template-columns: 1fr;
+  }
+}
