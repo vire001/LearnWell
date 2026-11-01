@@ -16,46 +16,113 @@ export async function fetchHealth() {
 /**
  * Extracts 1–5 distinct mathematical formulas using the backend AI endpoint.
  * Supports text-only (JSON) and image/combined inputs (FormData).
+ * Includes 35-second client-side timeout and manual cancellation via AbortSignal.
  */
-export async function extractFormulas({ formulaText, imageFile, chapterId, topicId }) {
-  let response;
+export async function extractFormulas({
+  formulaText,
+  imageFile,
+  chapterId,
+  topicId,
+  signal,
+}) {
+  const controller = new AbortController();
+  let timedOut = false;
 
-  if (imageFile) {
-    const formData = new FormData();
-    if (formulaText) formData.append('formulaText', formulaText);
-    formData.append('chapterId', chapterId);
-    formData.append('topicId', topicId);
-    formData.append('image', imageFile);
+  const timeoutId = setTimeout(() => {
+    timedOut = true;
+    controller.abort('timeout');
+  }, 35000);
 
-    response = await fetch(`${BASE_URL}/formula/extract`, {
-      method: 'POST',
-      body: formData,
-    });
-  } else {
-    response = await fetch(`${BASE_URL}/formula/extract`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        formulaText,
-        chapterId,
-        topicId,
-      }),
-    });
+  const onCallerAbort = () => {
+    controller.abort('manual');
+  };
+
+  if (signal) {
+    if (signal.aborted) {
+      clearTimeout(timeoutId);
+      const cancelError = new Error('Formula extraction was cancelled.');
+      cancelError.name = 'AbortError';
+      cancelError.code = 'CANCELLED';
+      throw cancelError;
+    }
+    signal.addEventListener('abort', onCallerAbort, { once: true });
   }
 
-  const result = await response.json().catch(() => ({}));
+  try {
+    let response;
 
-  if (!response.ok) {
-    const error = new Error(result.error || `Extraction failed with status ${response.status}`);
-    error.code = result.code;
-    error.status = response.status;
-    error.count = result.count;
-    throw error;
+    if (imageFile) {
+      const formData = new FormData();
+      if (formulaText) formData.append('formulaText', formulaText);
+      formData.append('chapterId', chapterId);
+      formData.append('topicId', topicId);
+      formData.append('image', imageFile);
+
+      response = await fetch(`${BASE_URL}/formula/extract`, {
+        method: 'POST',
+        body: formData,
+        signal: controller.signal,
+      });
+    } else {
+      response = await fetch(`${BASE_URL}/formula/extract`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formulaText,
+          chapterId,
+          topicId,
+        }),
+        signal: controller.signal,
+      });
+    }
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      const error = new Error(result.error || `Extraction failed with status ${response.status}`);
+      error.code = result.code;
+      error.status = response.status;
+      error.count = result.count;
+      throw error;
+    }
+
+    return result;
+  } catch (err) {
+    if (timedOut || controller.signal.reason === 'timeout') {
+      const timeoutError = new Error(
+        'Formula extraction timed out after 35 seconds. LearnWell AI took too long to respond. Please check your connection and try again.'
+      );
+      timeoutError.name = 'TimeoutError';
+      timeoutError.code = 'TIMEOUT';
+      timeoutError.status = 504;
+      throw timeoutError;
+    }
+
+    if (signal?.aborted || controller.signal.reason === 'manual' || err.name === 'AbortError') {
+      const cancelError = new Error('Formula extraction was cancelled.');
+      cancelError.name = 'AbortError';
+      cancelError.code = 'CANCELLED';
+      throw cancelError;
+    }
+
+    if (err.name === 'TypeError' && err.message?.toLowerCase().includes('fetch')) {
+      const netError = new Error(
+        'Unable to connect to the LearnWell server. Please verify the server is running.'
+      );
+      netError.code = 'NETWORK_ERROR';
+      netError.status = 0;
+      throw netError;
+    }
+
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+    if (signal) {
+      signal.removeEventListener('abort', onCallerAbort);
+    }
   }
-
-  return result;
 }
 
 /**

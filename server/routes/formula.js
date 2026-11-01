@@ -54,12 +54,19 @@ function handleUpload(req, res, next) {
  * Extracts distinct formulas from text and/or image.
  */
 router.post('/formula/extract', handleUpload, async (req, res) => {
+  const startTime = Date.now();
   try {
     const { formulaText, chapterId, topicId } = req.body;
     const file = req.file;
 
+    const trimmedText = typeof formulaText === 'string' ? formulaText.trim() : '';
+    console.log(
+      `[Formula Extract] Inbound request: chapter="${chapterId || ''}", topic="${topicId || ''}", hasImage=${Boolean(file)}, textLength=${trimmedText.length}`
+    );
+
     // Validate chapter
     if (!chapterId || typeof chapterId !== 'string') {
+      console.warn('[Formula Extract] Rejected: Missing or invalid chapterId');
       return res.status(400).json({
         error: 'Missing or invalid chapterId.',
         code: 'INVALID_CHAPTER_ID',
@@ -68,6 +75,7 @@ router.post('/formula/extract', handleUpload, async (req, res) => {
 
     const chapter = getChapterById(chapterId.trim());
     if (!chapter) {
+      console.warn(`[Formula Extract] Rejected: Chapter "${chapterId}" not found`);
       return res.status(404).json({
         error: `Mathematics chapter '${chapterId}' not found.`,
         code: 'CHAPTER_NOT_FOUND',
@@ -76,6 +84,7 @@ router.post('/formula/extract', handleUpload, async (req, res) => {
 
     // Validate topic
     if (!topicId || typeof topicId !== 'string') {
+      console.warn('[Formula Extract] Rejected: Missing or invalid topicId');
       return res.status(400).json({
         error: 'Missing or invalid topicId.',
         code: 'INVALID_TOPIC_ID',
@@ -84,6 +93,7 @@ router.post('/formula/extract', handleUpload, async (req, res) => {
 
     const topic = getTopicById(chapter.id, topicId.trim());
     if (!topic) {
+      console.warn(`[Formula Extract] Rejected: Topic "${topicId}" not found in chapter "${chapter.title}"`);
       return res.status(404).json({
         error: `Topic '${topicId}' does not belong to chapter '${chapter.title}'.`,
         code: 'TOPIC_NOT_FOUND',
@@ -91,8 +101,8 @@ router.post('/formula/extract', handleUpload, async (req, res) => {
     }
 
     // Validate input presence
-    const trimmedText = typeof formulaText === 'string' ? formulaText.trim() : '';
     if (!trimmedText && !file) {
+      console.warn('[Formula Extract] Rejected: Empty input (no text, no image)');
       return res.status(400).json({
         error: 'Please enter formula text or attach a formula image.',
         code: 'EMPTY_INPUT',
@@ -100,6 +110,7 @@ router.post('/formula/extract', handleUpload, async (req, res) => {
     }
 
     if (trimmedText.length > 2000) {
+      console.warn(`[Formula Extract] Rejected: Input too long (${trimmedText.length} chars)`);
       return res.status(400).json({
         error: 'Formula text exceeds the maximum limit of 2,000 characters.',
         code: 'INPUT_TOO_LONG',
@@ -107,6 +118,7 @@ router.post('/formula/extract', handleUpload, async (req, res) => {
     }
 
     // Call Gemini for structured formula extraction
+    console.log(`[Formula Extract] Gemini request started for topic="${topic.title}"`);
     const extractionResult = await extractFormulasWithGemini({
       formulaText: trimmedText,
       imageBuffer: file?.buffer,
@@ -117,6 +129,7 @@ router.post('/formula/extract', handleUpload, async (req, res) => {
     });
 
     if (!extractionResult.isMathFormula) {
+      console.warn(`[Formula Extract] Not a math formula: ${extractionResult.rejectionReason || 'Unknown'}`);
       return res.status(400).json({
         error:
           extractionResult.rejectionReason ||
@@ -128,6 +141,7 @@ router.post('/formula/extract', handleUpload, async (req, res) => {
     const formulas = deduplicateFormulas(extractionResult.formulas || []);
 
     if (formulas.length === 0) {
+      console.warn('[Formula Extract] No formulas detected after deduplication');
       return res.status(400).json({
         error: 'No valid mathematical formulas could be identified in the submission.',
         code: 'NO_FORMULAS_DETECTED',
@@ -139,6 +153,11 @@ router.post('/formula/extract', handleUpload, async (req, res) => {
       ? `Limit Exceeded: ${formulas.length} formulas detected. LearnWell supports a maximum of 5 formulas per practice session. Please remove ${formulas.length - 5} formula${formulas.length - 5 === 1 ? '' : 's'} to continue.`
       : `${formulas.length} formula${formulas.length === 1 ? '' : 's'} extracted successfully.`;
 
+    const durationMs = Date.now() - startTime;
+    console.log(
+      `[Formula Extract] Extraction succeeded in ${durationMs}ms: count=${formulas.length}, limitExceeded=${limitExceeded}`
+    );
+
     return res.json({
       success: true,
       count: formulas.length,
@@ -147,10 +166,15 @@ router.post('/formula/extract', handleUpload, async (req, res) => {
       message,
     });
   } catch (err) {
+    const durationMs = Date.now() - startTime;
     const status = err.status || 500;
+    const code = err.code || 'INTERNAL_ERROR';
+    console.error(
+      `[Formula Extract] Extraction failed in ${durationMs}ms [status=${status}, code=${code}]: ${err.message}`
+    );
     return res.status(status).json({
       error: err.message || 'An error occurred while extracting formulas.',
-      code: err.code || 'INTERNAL_ERROR',
+      code,
     });
   }
 });

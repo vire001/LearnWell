@@ -132,6 +132,8 @@ const FORMULA_ANALYSIS_SCHEMA = {
   ],
 };
 
+const GEMINI_TIMEOUT_MS = 30000;
+
 function getClient() {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey || !apiKey.trim()) {
@@ -142,13 +144,40 @@ function getClient() {
     error.status = 500;
     throw error;
   }
-  return new GoogleGenAI({ apiKey });
+  return new GoogleGenAI({
+    apiKey,
+    httpOptions: { timeout: GEMINI_TIMEOUT_MS },
+  });
 }
 
 /**
  * Maps upstream Gemini errors to standard LearnWell errors adhering to Free Tier safety.
  */
 function handleGeminiError(err) {
+  const msg = typeof err.message === 'string' ? err.message.toLowerCase() : '';
+
+  // 0. Timeout / Aborted / Gateway Deadline (504)
+  if (
+    err.status === 504 ||
+    err.code === 'DEADLINE_EXCEEDED' ||
+    err.error?.status === 'DEADLINE_EXCEEDED' ||
+    err.error?.code === 'DEADLINE_EXCEEDED' ||
+    err.name === 'AbortError' ||
+    err.name === 'TimeoutError' ||
+    err.code === 'ETIMEDOUT' ||
+    msg.includes('deadline expired') ||
+    msg.includes('deadline_exceeded') ||
+    msg.includes('timeout') ||
+    msg.includes('aborted')
+  ) {
+    const timeoutErr = new Error(
+      'Gemini API request timed out. The service took too long to respond. Please try again.'
+    );
+    timeoutErr.status = 504;
+    timeoutErr.code = 'TIMEOUT';
+    throw timeoutErr;
+  }
+
   // 1. Quota / Rate Throttling (429)
   if (
     err.status === 429 ||
@@ -687,4 +716,5 @@ module.exports = {
   analyzeFormulaWithGemini,
   generateQuestionsForFormula,
   generateMixedPracticeQuestions,
+  handleGeminiError,
 };

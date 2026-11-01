@@ -57,10 +57,20 @@ export default function FormulaInput() {
 
   const fileInputRef = useRef(null);
   const textareaRef = useRef(null);
+  const abortControllerRef = useRef(null);
 
   // Fetch active learner on mount
   useEffect(() => {
     getActiveLearner().then(setActiveLearner).catch(() => {});
+  }, []);
+
+  // Abort any in-flight extraction request if component unmounts
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
   }, []);
 
   // Clean up object URL when image changes or component unmounts
@@ -124,7 +134,10 @@ export default function FormulaInput() {
   const handleExtractSubmit = async (e) => {
     if (e) e.preventDefault();
     const trimmed = formulaText.trim();
-    if ((!trimmed && !selectedImage) || loading) return;
+    if ((!trimmed && !selectedImage) || loading || abortControllerRef.current) return;
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
 
     setLoading(true);
     setError(null);
@@ -135,7 +148,11 @@ export default function FormulaInput() {
         imageFile: selectedImage,
         chapterId,
         topicId,
+        signal: controller.signal,
       });
+
+      // Guard against stale responses if request was aborted
+      if (controller.signal.aborted) return;
 
       if (Array.isArray(result.formulas) && result.formulas.length > 0) {
         setFormulas(result.formulas);
@@ -144,10 +161,27 @@ export default function FormulaInput() {
         throw new Error('No formulas were returned from extraction.');
       }
     } catch (err) {
+      // Manual cancellation returns silently to input composer without error banner
+      if (err.name === 'AbortError' || err.code === 'CANCELLED' || controller.signal.aborted) {
+        return;
+      }
       setError(err.message || 'Failed to extract formulas. Please try again.');
     } finally {
+      if (abortControllerRef.current === controller) {
+        abortControllerRef.current = null;
+      }
       setLoading(false);
     }
+  };
+
+  // Stage 1: Cancel in-flight extraction and return immediately to composer
+  const handleCancelExtraction = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    setLoading(false);
+    setError(null);
   };
 
   // Stage 2: Update formula name in editable list
@@ -362,6 +396,17 @@ export default function FormulaInput() {
             <p className="loading-subtitle">
               Parsing mathematical notation, identifying distinct equations, and preserving variable casing for {topic.title}…
             </p>
+            <div className="loading-actions">
+              <button
+                type="button"
+                onClick={handleCancelExtraction}
+                className="loading-cancel-btn"
+                aria-label="Cancel formula extraction and return to input"
+              >
+                <X size={15} />
+                <span>Cancel & Return</span>
+              </button>
+            </div>
           </div>
         )}
 
